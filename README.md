@@ -8,3 +8,13 @@
 - zmergowanie zmiany z nowej gałęzi do głównej gałęzi `git merge nowa`
 ![1](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/2ca054ef-eda3-4145-b360-a67cf94404cf)
 ### 2. Pokaż jak działa pull request na jednym ze swoich repozytoriów.
+- W repozytorium na GitHubie przechodze do zakładki "Pull requests".
+- "New pull request".
+- wybieram odpowiednie gałęzie do porównania i utwórz Pull Request.
+- opis zmian, przeglądanie zmiany i review.
+- wszystko jest w porządku, zatwierdź i scalam zmiany.
+
+### 3. Omów różnicę między git fetch a git pull na przykładzie swojego repozytorium.
+- git fetch pobiera wszystkie zmiany z repozytorium zdalnego, ale nie scalają ich z bieżącą gałęzią. Pozwala to na przeglądanie zmian przed ich scaleniem.
+  `git fetch origin`
+- git pull, z kolei, pobiera zmiany z repozytorium zdalnego i natychmiast je scalą z bieżącą gałęzią. Jest to szybsza operacja, ale nie daje takiej kontroli jak git fetch.
