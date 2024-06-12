@@ -16,6 +16,7 @@
 - wszystko jest w porządku, zatwierdź i scalam zmiany.
 
 ### 3. Omów różnicę między git fetch a git pull na przykładzie swojego repozytorium.
-- git fetch pobiera wszystkie zmiany z repozytorium zdalnego, ale nie scalają ich z bieżącą gałęzią. Pozwala to na przeglądanie zmian przed ich scaleniem.
+- git fetch pobiera dane z zdalnego repozytorium, ale nie aktualizuje automatycznie lokalnych gałęzi. Pozwala to na przeglądanie zmian bez wprowadzania ich do swojego lokalnego repozytorium.
   `git fetch origin`
-- git pull, z kolei, pobiera zmiany z repozytorium zdalnego i natychmiast je scalą z bieżącą gałęzią. Jest to szybsza operacja, ale nie daje takiej kontroli jak git fetch.
+- git pull pobiera dane z zdalnego repozytorium i automatycznie łączy je z bieżącą gałęzią. Jest to połączenie git fetch i git merge.
+`git pull origin main`
