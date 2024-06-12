@@ -182,3 +182,35 @@ FROM orders
 GROUP BY product
 HAVING COUNT(id) > 0;
 ```
+## III. Aplikacja wg wzorca projektowego MVC (Model-View-Controller)
+
+### 1. Czym jest ORM, zaprezentuj praktycznie na przykładzie własnego projektu.
+ORM (Object-Relational Mapping) to technika programowania, która umożliwia mapowanie obiektów w kodzie na rekordy w bazie danych. W praktyce oznacza to, że zamiast korzystać bezpośrednio z języka SQL do operacji na bazie danych, możemy używać obiektów w naszym kodzie, a ORM zajmie się tłumaczeniem tych operacji na odpowiednie zapytania SQL.
+
+
+
+
+
+
+
+## IV. Docker
+### 1. Utwórz plik z obrazem Dockerfile, w którym z hosta do kontenera kopiowany będzie folder code (zawiera np. jeden skrypt w języku Python 🐍) i zbuduj go: uruchom ww. skrypt wewnątrz kontenera.
+- utworzyłam skrypt w pythonie `script.py`
+- utworzyłam plik `Dockerfile`
+```
+# Użyj obrazu bazowego Pythona
+FROM python:3.9
+
+# Utwórz katalog docelowy w kontenerze
+WORKDIR /app
+
+# Skopiuj plik script.py z hosta do katalogu /app w kontenerze
+COPY script.py /app
+
+# Określ, co ma zostać wykonane po uruchomieniu kontenera
+CMD ["python", "/app/script.py"]
+```
+- `docker build -t my-python-app .`
+![myapp](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/d2daef24-7447-4cfc-9152-e03310f4bd73)
+-`docker run my-python-app` - uruchomiłam ww. skrypt wewnatrz kontenera
+![skrypt](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/09b20976-1a39-46dc-a4cc-601225eb98cb)
