@@ -477,3 +477,73 @@ print(f"Dane zostały zapisane do pliku {output_file}.")
         "thumbnailUrl": "https://via.placeholder.com/150/24f355"
     },
 ```
+
+### 3. Napisz skrypt, który odczytuje dane z pliku tekstowego i wyświetla je we wskazanej postaci.
+utworzenie skryptu- `read_and_display`
+```
+import json
+
+
+def read_and_display_data(input_file):
+    with open(input_file, 'r') as file: # otworzenie pliku w trybie odczytu r - read
+        data = json.load(file) # odczytuje zawartość pliku file i przetwarza ją jako JSON,
+        # zwracając wynik w postaci obiektu Python
+
+    for item in data[:10]:  # tylko pierwsze 10 pozycji
+        print(f"ID: {item['id']}, Title: {item['title']}")
+
+
+input_file = "photos.json"
+read_and_display_data(input_file)
+```
+
+### 4. Pokaż działanie dziedziczenia w programowaniu obiektowym, poprzez utworzenie klasy Person (jej atrybuty to name i surname) i klas z niej dziedziczących, które mają dodatkowe atrybuty i metody. Może to być np. kod/program dotyczący osób na uczelni lub osób w firmie z określoną hierarchią.
+- utworzenie klasy Person
+```
+
+class Person:
+    def __init__(self, name, surname):
+        self.name = name
+        self.surname = surname
+
+    def get_full_name(self):
+        return f"{self.name} {self.surname}"
+```
+- utworzenie klasy Student
+```
+from Person import Person
+
+
+class Student(Person):
+    def __init__(self, name, surname, student_id):
+        super().__init__(name, surname)
+        self.student_id = student_id
+
+    def get_student_info(self):
+        return f"Student: {self.get_full_name()}, ID: {self.student_id}"
+```
+- utworzenie klasy Teacher
+```
+from Person import Person
+
+
+class Teacher(Person):
+    def __init__(self, name, surname, subject):
+        super().__init__(name, surname)
+        self.subject = subject
+
+    def get_teacher_info(self):
+        return f"Teacher: {self.get_full_name()}, Subject: {self.subject}"
+```
+- oraz plik main2.py
+```
+from Student import Student
+from Teacher import Teacher
+
+# Przykład użycia:
+student = Student("Jan", "Kowalski", "s12345")
+teacher = Teacher("Anna", "Nowak", "Mathematics")
+
+print(student.get_student_info())  # Output: Student: Jan Kowalski, ID: s12345
+print(teacher.get_teacher_info())  # Output: Teacher: Anna Nowak, Subject: Mathematics
+```
