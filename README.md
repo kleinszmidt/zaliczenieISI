@@ -315,4 +315,16 @@ CMD pwd && ls -la
 - Docker Compose- system do automatyzacji uruchamiania i budowania wielu kontenerów na raz
 - `docker-compose` 
 - `notepad docker-compose.yml`
-- 
+```
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: cmd.Dockerfile
+    ports:
+      - "5000:5000"
+```
+- `docker-compose up` 
+![docker-composeup](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/5de47016-f85b-4419-9598-ef7bf2b6ac05)
