@@ -313,6 +313,7 @@ CMD pwd && ls -la
 
 ### 6. Pokaż działanie docker compose w swoim projekcie.
 - Docker Compose- system do automatyzacji uruchamiania i budowania wielu kontenerów na raz
+Docker Compose to narzędzie, które umożliwia definiowanie i zarządzanie wielokontenerowymi aplikacjami Docker. Umożliwia uruchomienie wielu usług kontenerowych zdefiniowanych w jednym pliku YAML. Dzięki Docker Compose możesz łatwo budować, uruchamiać i skalować aplikacje składające się z wielu kontenerów.
 - `docker-compose` 
 - `notepad docker-compose.yml`
 ```
@@ -328,3 +329,30 @@ services:
 ```
 - `docker-compose up` 
 ![docker-composeup](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/5de47016-f85b-4419-9598-ef7bf2b6ac05)
+- WORKDIR: Ustawia katalog roboczy w kontenerze. W tym przypadku WORKDIR /app ustawia katalog roboczy na /app, co oznacza, że wszystkie polecenia RUN, CMD, ENTRYPOINT, COPY i ADD będą działać w tym katalogu.
+- COPY: Kopiuje pliki z systemu plików hosta do systemu plików kontenera. W tym przypadku COPY . /app kopiuje całą zawartość bieżącego katalogu (.) do katalogu /app w kontenerze.
+- ADD: Działa podobnie jak COPY, ale może również pobierać pliki z URL i automatycznie rozpakowywać archiwa tar. Jest to bardziej elastyczne polecenie, ale w tym projekcie nie było używane.
+
+### 7. Omów na podstawie swojej aplikacji komendy docker inspect i docker logs.
+`docker inspect` zawiera wszytskie informacje o kontenerze, jak nazywa się jego sieć z jakiego portu korzysta, jaki ma obraz, czego uzywa dockerfile (cmd). `docker logs` służy do wyświetlania dzienników kontenera. Pozwala na przeglądanie wszystkich logów wypisywanych przez procesy wewnątrz kontenera.
+
+### 8. Czym są sieci w Dockerze? Zaprezentuj przykład na bazie swojego projektu.
+Sieci w Dockerze służą do zarządzania łącznością między kontenerami i hostami. Umożliwiają komunikację między różnymi kontenerami oraz łączność z zasobami sieciowymi na hoście. Docker oferuje kilka rodzajów sieci, takich jak bridge, host, overlay, macvlan itp.
+- `docker-compose` z siecia my_network
+```
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+```
+- docker-compose up
+- gdy wystapil jakikolwiek blad uzycie `docker-compose up -d`-która uruchamia kompozycję w trybie tła, co pozwoli ci zobaczyć błędy kontenera bez przerywania działania procesu.
+![helloworld](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/dcc0d2f7-aa71-4de0-a30b-6cd10e28f9d4)
