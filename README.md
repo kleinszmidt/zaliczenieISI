@@ -306,3 +306,13 @@ CMD pwd && ls -la
 - `docker run --rm my_project_image` - Użyj poniższego polecenia, aby uruchomić kontener na podstawie stworzonego obrazu.
 
 ![sampletargz](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/fb28a5f3-c990-4171-966e-23820573be41)
+
+- WORKDIR upraszcza ścieżki do plików i katalogów, ustawiając domyślny katalog roboczy.
+- COPY służy do prostego kopiowania plików i katalogów z hosta do obrazu Docker.
+- ADD jest bardziej zaawansowane niż COPY, ponieważ może rozpakowywać archiwa tar.
+
+### 6. Pokaż działanie docker compose w swoim projekcie.
+- Docker Compose- system do automatyzacji uruchamiania i budowania wielu kontenerów na raz
+- `docker-compose` 
+- `notepad docker-compose.yml`
+- 
