@@ -8,6 +8,7 @@
 - zmergowanie zmiany z nowej gałęzi do głównej gałęzi `git merge nowa`
 ![1](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/2ca054ef-eda3-4145-b360-a67cf94404cf)
 ### 2. Pokaż jak działa pull request na jednym ze swoich repozytoriów.
+`git push origin nowa` wyycham zmiany z lokalnego repozytorium na zdalne
 - W repozytorium na GitHubie przechodze do zakładki "Pull requests".
 - "New pull request".
 - wybieram odpowiednie gałęzie do porównania i utwórz Pull Request.
