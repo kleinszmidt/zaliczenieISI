@@ -253,18 +253,6 @@ def photos():
     photos = response.json()[:4]
     return render_template('photos.html', photos=photos)
 
-# wyswietla 3 4 i 5 zdjęcie
-# @app.route('/photos')
-# def photos():
-#     photo_ids = [3, 4, 5]
-#     photos = []
-#     for photo_id in photo_ids:
-#         response = requests.get(f'https://jsonplaceholder.typicode.com/photos/{photo_id}')
-#         if response.status_code == 200:
-#             photos.append(response.json())
-#     return render_template('photos.html', photos=photos)
-
-
 
 @app.route('/create_user', methods=['GET', 'POST'])
 def create_user_view():
@@ -328,6 +316,34 @@ def add_numbers():
 </body>
 </html>
 ```
+### 5. Dodaj nowy URL w aplikacji i spraw, aby po uruchomieniu go w przeglądarce wyświetliły się cztery zdjęcia ze strony https://jsonplaceholder.typicode.com/photos.
+- w pliku `views.py` korzystam z @app.route i określam pod jakim URL (/photos) ma się znajdować strona która wyświetla 4 piwerwsze zdjęcia z podanej strony.
+```
+@app.route('/photos')
+def photos():
+    response = requests.get('https://jsonplaceholder.typicode.com/photos')
+    photos = response.json()[:4]
+    return render_template('photos.html', photos=photos)
+```
+- a tutaj html do tej strony
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zdjęcia</title>
+</head>
+<body>
+    <h1>Cztery Zdjęcia</h1>
+    {% for photo in photos %}
+        <div>
+            <h2>{{ photo.title }}</h2>
+            <img src="{{ photo.thumbnailUrl }}" alt="{{ photo.title }}">
+        </div>
+    {% endfor %}
+</body>
+</html>
+```
+
 
 ## IV. Docker
 ### 1. Utwórz plik z obrazem Dockerfile, w którym z hosta do kontenera kopiowany będzie folder code (zawiera np. jeden skrypt w języku Python 🐍) i zbuduj go: uruchom ww. skrypt wewnątrz kontenera.
