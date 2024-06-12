@@ -225,4 +225,50 @@ CMD ["python", "/app/script.py"]
 ### 3. Skopiuj wybrany plik tekstowy z kontenera Dockerowego do hosta (swojego komputera).
 - `docker cp my_container:/app C:/Users/klein/PycharmProjects/pythonProject/data/`
 ![kopiowanieplikupng](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/cffb9e14-a2d4-43c4-975f-da90279b9acf)
-- 
+
+### 4. Pokaż użycie komend ENTRYPOINT i CMD.
+
+- utworzyłam nowy projekt pythonProject1 z `app.py`
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
+```
+- potem utworzylam cmd.Dockerfile
+```
+FROM python:3.9
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install flask
+
+CMD ["python", "app.py"]
+```
+- `docker build -f cmd.Dockerfile -t cmd .` - zbudowałam go
+![cmdDockerfile](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/ec2d6575-fc5f-403b-9902-3a5ca2c58e99)
+
+- teraz gdy chce dodac nowe polecenie do cmd np /dev to reszta polecen sie nie wykonana
+![dev](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/46daba84-4d0c-4494-9300-f567e9e4cdd7)
+- przy uzyci entrypointa bede mogla dopisac polecenie
+```
+FROM python:3.9
+
+WORKDIR /app
+
+ADD . /app
+
+RUN pip install flask
+
+ENTRYPOINT ["python", "app.py"]
+```
+- `docker build -f entrypoint.Dockerfile -t entrypoint .` - buduje go
+- i następnie dopisze komende `docker run entrypoint /dev` zostanie ona wykonana na końcu, dopisana.
