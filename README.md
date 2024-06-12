@@ -358,3 +358,74 @@ networks:
 
 - gdy wystapil jakikolwiek blad uzycie `docker-compose up -d`-która uruchamia kompozycję w trybie tła, co pozwoli ci zobaczyć błędy kontenera bez przerywania działania procesu.
 ![helloworld](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/dcc0d2f7-aa71-4de0-a30b-6cd10e28f9d4)
+
+## V. Programowanie
+### 1. Przygotuj klasę Kalkulator z czterema wybranymi działaniami matematycznymi (jako metody) i bądź gotowy do utworenia obiektów i modyfikacji tejże klasy wg wytycznych.
+- utworzenie nowego projektu a w nim pliku `kalkulator.py`
+```
+class Kalkulator:
+    def __init__(self):
+        pass
+
+    def dodaj(self, a, b):
+        return a + b
+
+    def odejmij(self, a, b):
+        return a - b
+
+    def mnoz(self, a, b):
+        return a * b
+
+    def dziel(self, a, b):
+        if b == 0:
+            return "Nie można dzielić przez zero!"
+        return a / b
+
+
+```
+- w pliku `main.py` odwołuje sie do tego pliku tworzac nowy obiekt kalkulator = Kalkulator()
+```
+from kalkulator import Kalkulator
+
+
+
+kalkulator = Kalkulator()
+print(kalkulator.dodaj(5, 3))  #  8
+print(kalkulator.odejmij(10, 4))  #  6
+print(kalkulator.mnoz(6, 7))  #  42
+print(kalkulator.dziel(15, 3))  # 5.0
+print(kalkulator.dziel(10, 0))  # Nie można dzielić przez zero!
+```
+- utworzyłam plik `zaawansowany.py` który dziedziczy po klasie kalkulator
+```
+from kalkulator import Kalkulator
+import math
+
+
+class ZaawansowanyKalkulator(Kalkulator):
+    def __init__(self):
+        super().__init__()
+
+    def pierwiastek(self, a):
+        if a < 0:
+            return "Pierwiastek z liczby ujemnej jest niezdefiniowany!"
+        return math.sqrt(a)
+```
+- w pliku `main.py` tworze obiekt na jego podstawie
+```
+from zaawansowany import ZaawansowanyKalkulator
+
+zaawansowany_kalkulator = ZaawansowanyKalkulator()
+print(zaawansowany_kalkulator.dodaj(5, 3))
+print(zaawansowany_kalkulator.pierwiastek(16))
+print(zaawansowany_kalkulator.pierwiastek(-4))
+```
+- tworzenie nowych obiektów wyglada tak
+  
+```
+kalkulator1 = Kalkulator()
+kalkulator2 = Kalkulator()
+
+print(kalkulator1.dodaj(1, 2))  # 3
+print(kalkulator2.mnoz(3, 4))  # 12
+```
