@@ -186,12 +186,148 @@ HAVING COUNT(id) > 0;
 
 ### 1. Czym jest ORM, zaprezentuj praktycznie na przykładzie własnego projektu.
 ORM (Object-Relational Mapping) to technika programowania, która umożliwia mapowanie obiektów w kodzie na rekordy w bazie danych. W praktyce oznacza to, że zamiast korzystać bezpośrednio z języka SQL do operacji na bazie danych, możemy używać obiektów w naszym kodzie, a ORM zajmie się tłumaczeniem tych operacji na odpowiednie zapytania SQL.
+- w moim projekcie mam plik models.py, który zawiera klasę USER. Jest to model SQLAlchemy który mapuje na tabelę user w bazie danych. Każda kolumna w tabeli jest reprezentowana przez atrybut klasy.
+```
+from app import db
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
+
+    def __repr__(self):
+        return f'<User {self.first_name} {self.last_name}>'
+```
+- W pliku `app.py` inizjalizuje aplikację flask i tworzę tabele na podstawie zdefiniowanego modelu - robi to funkcja `db.create_all()`
+```
+from app import app, db
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
+```
+- ORM umożliwia łatwe wykonywanie operacji CRUD bez potrzeby pisania skomplikowanych zapytań SQL. Zamiast tego, operujemy na obiektach Pythona. Dzieje się to w pliku `services.py`
+```
+from app import db
+from app.models import User
+
+#CRUD create read update delete
+def create_user(first_name, last_name):
+    new_user = User(first_name=first_name, last_name=last_name)
+    db.session.add(new_user)
+    db.session.commit()
+
+def get_all_users():
+    return User.query.all()
+```
+- W pliku `views.py` wykorzystujemy powyższe funkcje i tworzymy widoki
+```
+from flask import render_template, request, redirect, url_for
+from app import app, db
+from app.models import User
+import requests
+from app.services import create_user, get_all_users # update_user_first_name, delete_user
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/name')
+def name():
+    return "Patrycja Przybysz"
+
+@app.route('/add_numbers', methods=['GET', 'POST'])
+def add_numbers():
+    if request.method == 'POST':
+        number1 = request.form['number1']
+        number2 = request.form['number2']
+        result = int(number1) + int(number2)
+        return f'Wynik: {result}'
+    return render_template('form.html')
+
+# 4 pierwsze zdj
+@app.route('/photos')
+def photos():
+    response = requests.get('https://jsonplaceholder.typicode.com/photos')
+    photos = response.json()[:4]
+    return render_template('photos.html', photos=photos)
+
+# wyswietla 3 4 i 5 zdjęcie
+# @app.route('/photos')
+# def photos():
+#     photo_ids = [3, 4, 5]
+#     photos = []
+#     for photo_id in photo_ids:
+#         response = requests.get(f'https://jsonplaceholder.typicode.com/photos/{photo_id}')
+#         if response.status_code == 200:
+#             photos.append(response.json())
+#     return render_template('photos.html', photos=photos)
 
 
 
+@app.route('/create_user', methods=['GET', 'POST'])
+def create_user_view():
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        create_user(first_name, last_name)
+        return redirect(url_for('get_all_users_view'))
+    return render_template('create_user.html')
 
+@app.route('/get_all_users')
+def get_all_users_view():
+    users = get_all_users()
+    return render_template('users.html', users=users)
+```
+### 2. Czym jest wzorzec MVC? Wskaż w kodzie aplikacji poszczególne elementy tego wzorca i określ ich role.
+MVC (Model-View-Controller) to wzorzec architektoniczny, który dzieli aplikację na trzy główne komponenty: Model, Widok (View) i Kontroler (Controller). Każdy z tych komponentów ma swoją własną odpowiedzialność, co umożliwia lepszą organizację kodu, jego modularność i łatwość utrzymania.
 
+- Model: Reprezentuje dane aplikacji oraz logikę biznesową. Odpowiada za bezpośrednią interakcję z bazą danych. Przykład: Klasa User w pliku models.py.
 
+- Widok (View): Odpowiada za prezentację danych użytkownikowi. Generuje interfejs użytkownika na podstawie danych dostarczonych przez kontroler. Przykład: Szablony HTML w katalogu templates.
+
+- Kontroler (Controller): Odpowiada za przetwarzanie żądań od użytkownika, interakcję z modelem oraz zwracanie odpowiednich widoków. Koordynuje przepływ danych pomiędzy modelem a widokiem. Przykład: Funkcje widoków w pliku views.py. (@app.route)
+
+### 3. Dodaj nowy URL w aplikacji i spraw, aby po uruchomieniu go w przeglądarce pojawiło się Twoje imię i nazwisko.
+- w pliku `views.py` korzystam z @app.route i określam pod jakim URL (/name) ma się znajdować wskazana informacja. Następnie definiuje funkcje która zwraca moje imię i nazwisko.
+
+```
+@app.route('/name')
+def name():
+    return "Julia Kleinszmidt"
+```
+### 4. Dodaj nowy URL w aplikacji i spraw, aby po uruchomieniu go w przeglądarce pojawił się formularz, który pozwala dodać dwie liczby.
+- w pliku `views.py` korzystam z @app.route i określam pod jakim URL (/add_numbers) ma się znajdować formularz dodający dwie liczby. Tworzę funkcje dodająca te dwie liczby zwracam wynik a wszystko prezentuje sie w template `form.html`
+```
+@app.route('/add_numbers', methods=['GET', 'POST'])
+def add_numbers():
+    if request.method == 'POST':
+        number1 = request.form['number1']
+        number2 = request.form['number2']
+        result = int(number1) + int(number2)
+        return f'Wynik: {result}'
+    return render_template('form.html')
+```
+- w form.html
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj dwie liczby</title>
+</head>
+<body>
+    <h1>Dodaj dwie liczby</h1>
+    <form method="POST">
+        <label for="number1">Liczba 1:</label>
+        <input type="text" id="number1" name="number1"><br><br>
+        <label for="number2">Liczba 2:</label>
+        <input type="text" id="number2" name="number2"><br><br>
+        <input type="submit" value="Dodaj">
+    </form>
+</body>
+</html>
+```
 
 ## IV. Docker
 ### 1. Utwórz plik z obrazem Dockerfile, w którym z hosta do kontenera kopiowany będzie folder code (zawiera np. jeden skrypt w języku Python 🐍) i zbuduj go: uruchom ww. skrypt wewnątrz kontenera.
