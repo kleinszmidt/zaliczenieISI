@@ -214,3 +214,15 @@ CMD ["python", "/app/script.py"]
 ![myapp](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/d2daef24-7447-4cfc-9152-e03310f4bd73)
 -`docker run my-python-app` - uruchomiłam ww. skrypt wewnatrz kontenera
 ![skrypt](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/09b20976-1a39-46dc-a4cc-601225eb98cb)
+
+### 2. Skopiuj wybrany plik tekstowy z hosta (swojego komputera) do kontenera Dockerowego
+- docker run -it --name my_container python - utworzylam nowy kontener
+![nowykontener](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/41d39931-5009-48a0-a55b-ae76d410f0d2)
+- kopiowanie pliku tekstowego do kontenera
+`docker cp C:/Users/klein/PycharmProjects/pythonProject/data/sample.txt my_container:/app`
+  ![plikdokontenera](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/5a9aae00-0daa-4083-b786-845ab7d352cf)
+
+### 3. Skopiuj wybrany plik tekstowy z kontenera Dockerowego do hosta (swojego komputera).
+- `docker cp my_container:/app C:/Users/klein/PycharmProjects/pythonProject/data/`
+![kopiowanieplikupng](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/cffb9e14-a2d4-43c4-975f-da90279b9acf)
+- 
