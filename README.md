@@ -420,12 +420,60 @@ print(zaawansowany_kalkulator.dodaj(5, 3))
 print(zaawansowany_kalkulator.pierwiastek(16))
 print(zaawansowany_kalkulator.pierwiastek(-4))
 ```
-- tworzenie nowych obiektów wyglada tak
-  
+- tworzenie nowych obiektów wyglada tak  
 ```
 kalkulator1 = Kalkulator()
 kalkulator2 = Kalkulator()
 
 print(kalkulator1.dodaj(1, 2))  # 3
 print(kalkulator2.mnoz(3, 4))  # 12
+```
+### 2. Napisz skrypt, pobierajacy dane w formacie JSON ze wskazanego API (online, np. https://jsonplaceholder.typicode.com/photos) i zapisz te dane do pliku tekstowego.
+w pliku api_skrypty o tresci:
+```
+import requests #zapytania http
+import json #manipulacja danymi
+
+
+def save_data(api_url, output_file):
+    response = requests.get(api_url) # wysałnie zapytania do api i zapisanie odp do response
+    data = response.json() #przetworzenie zapytania do formatu json wynik jako obiekt
+
+    with open(output_file, 'w') as file: # otwiera plik o wskazanej nazwie i robi tak
+        # ze plik zostanie automatycznie zamkniety po wykonaniu kodu (w- with)
+        json.dump(data, file, indent=4) #apisuje dane data do pliku file w formacie JSON z
+        # wcięciami ustawionymi na 4 spacje
+
+
+api_url = "https://jsonplaceholder.typicode.com/photos"
+output_file = "photos.json"
+save_data(api_url, output_file)
+
+print(f"Dane zostały zapisane do pliku {output_file}.")
+
+```
+- w pliku jsona
+```
+[
+    {
+        "albumId": 1,
+        "id": 1,
+        "title": "accusamus beatae ad facilis cum similique qui sunt",
+        "url": "https://via.placeholder.com/600/92c952",
+        "thumbnailUrl": "https://via.placeholder.com/150/92c952"
+    },
+    {
+        "albumId": 1,
+        "id": 2,
+        "title": "reprehenderit est deserunt velit ipsam",
+        "url": "https://via.placeholder.com/600/771796",
+        "thumbnailUrl": "https://via.placeholder.com/150/771796"
+    },
+    {
+        "albumId": 1,
+        "id": 3,
+        "title": "officia porro iure quia iusto qui ipsa ut modi",
+        "url": "https://via.placeholder.com/600/24f355",
+        "thumbnailUrl": "https://via.placeholder.com/150/24f355"
+    },
 ```
