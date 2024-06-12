@@ -272,3 +272,37 @@ ENTRYPOINT ["python", "app.py"]
 ```
 - `docker build -f entrypoint.Dockerfile -t entrypoint .` - buduje go
 - i następnie dopisze komende `docker run entrypoint /dev` zostanie ona wykonana na końcu, dopisana.
+
+### 5. Pokaż użycie komend ADD i COPY i WORKDIR w swoim projekcie.
+`add` działa jak `copy` Kopiuje pliki i katalogi z lokalnego systemu plików do systemu plików obrazu Docker z tą różnica ze moze kopiować z linku i pliki tar. `workdir` utworzy katalog jesli nie istenije, ustawia katalog roboczy dla wszystkich kolejnych instrukcji tzn. jesli ustawimy katalog /app to wszytskie polecenia np COPY test.txt będą zapisywane w tym katalogu
+- tworze plik notepad vol.Dockerfile
+```
+FROM ubuntu
+WORKDIR /app
+COPY text.txt .
+CMD pwd && ls
+```
+- `docker build -f vol.Dockerfile -t vol_test .` buduje go
+- utworzenie pliku `Dockerfile`
+```
+FROM ubuntu
+
+# Ustaw katalog roboczy na /app
+WORKDIR /app
+
+# Skopiuj plik text.txt do katalogu roboczego
+COPY text.txt .
+
+# Dodaj plik tar.gz do katalogu roboczego i rozpakuj go
+ADD sample.tar.gz .
+
+# Uruchom polecenie, aby sprawdzić zawartość katalogu roboczego
+CMD pwd && ls -la
+
+```
+- utworzenie pliku sample.tar.gz, który będzie używay przez komendę `ADD`
+'tar -czf sample.tar.gz text.txt' 
+- `docker build -t my_project_image .` - Używam poniższego polecenia, aby zbudować obraz Docker na podstawie pliku Dockerfile.
+- `docker run --rm my_project_image` - Użyj poniższego polecenia, aby uruchomić kontener na podstawie stworzonego obrazu.
+
+![sampletargz](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/fb28a5f3-c990-4171-966e-23820573be41)
