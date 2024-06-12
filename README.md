@@ -354,5 +354,7 @@ networks:
   my_network:
 ```
 - docker-compose up
+![problem](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/cee92f74-6836-4b4a-a2d7-22aa4a04ae6a)
+
 - gdy wystapil jakikolwiek blad uzycie `docker-compose up -d`-która uruchamia kompozycję w trybie tła, co pozwoli ci zobaczyć błędy kontenera bez przerywania działania procesu.
 ![helloworld](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/dcc0d2f7-aa71-4de0-a30b-6cd10e28f9d4)
