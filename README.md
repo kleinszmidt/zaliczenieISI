@@ -135,6 +135,50 @@ FROM orders
 LEFT JOIN users ON users.id = orders.user_id;
 ```
 
+### 3. Zaloguj się do bazy danych PostgreSQL w kontenerze Dockerowym i wykonaj operację SELECT dla dowolnej tabeli.
+- ` docker exec -it baza_postgres psql -U postgres`
+  
+`CREATE TABLE students( id SERIAL PRIMARY_KEY, student_id INT REFERENCES students2(id), course_name VARCHAR(100));`
 
+`INSERT INTO students2 (name) VALUES ('Jan Kowalski');`
 
+` docker exec -it baza_postgres psql -U postgres -d postgres -c "SELECT * FROM students;"`
+![postgres](https://github.com/kleinszmidt/zaliczenieISI/assets/100431820/c3223680-678c-4921-8394-9d53eda65ae8)
 
+### 4. Wskaż różnice między SQLite a PostgreSQL na wybranym przez siebie przykładzie.
+- PostgreSQL wymaga oddzielnego procesu serwera i konfiguracji, podczas gdy SQLite jest prostszy w użyciu i nie wymaga oddzielnego serwera ani konfiguracji.
+- w SQlite nie ma RIGHT JOIN
+
+### 5. Przygotuj zapytania zawierające polecenia WHERE, LIKE, COUNT, GROUP BY, HAVING i bądz gotowy do ich uruchomienia i modyfikacji.
+- WHERE:
+```
+SELECT * 
+FROM users
+WHERE name = 'John Doe';
+```
+- LIKE:
+```
+SELECT * 
+FROM users 
+WHERE name LIKE 'J%';
+```
+- COUNT:
+```
+SELECT users.name, COUNT(orders.id) AS orders_count
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id
+GROUP BY users.id;
+```
+- GROUP BY
+```
+SELECT product, COUNT(id) AS orders_count
+FROM orders
+GROUP BY product;
+```
+- HAVING:
+```
+SELECT product, COUNT(id) AS orders_count
+FROM orders
+GROUP BY product
+HAVING COUNT(id) > 0;
+```
